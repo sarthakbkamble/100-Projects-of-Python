@@ -1,4 +1,4 @@
-Caesar Cipher Engine
+Project 7 : Caesar Cipher Engine
 
 A cryptographic utility demonstrating bi-directional data transformation
 through shift-based logic and modular mathematics.
