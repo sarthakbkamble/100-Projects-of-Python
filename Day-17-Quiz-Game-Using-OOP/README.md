@@ -1,5 +1,5 @@
 🛠 Project 15: Quiz Game
-Focus: Class Construction & Attribute Methods.
+Class Construction & Attribute Methods.
 
 🧠 Trivia Intelligence Engine
 A modular quiz system utilizing Object-Oriented Programming to manage dynamic data sets and maintain game state through class-based logic.
