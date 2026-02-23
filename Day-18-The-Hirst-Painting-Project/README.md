@@ -1,4 +1,5 @@
 🛠 Project 16: Hirst Painting Generator
+
 Computer Graphics & External Library Integration.
 
 🎨 Algorithmic Art Engine
