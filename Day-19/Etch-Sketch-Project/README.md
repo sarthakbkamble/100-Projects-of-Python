@@ -1,5 +1,5 @@
 🛠 Project 17.1: Etch-A-Sketch
-Focus: Event Listeners & Higher-Order Functions.
+Event Listeners & Higher-Order Functions.
 
 🎨 Interactive Sketch Engine
 An event-driven input system that maps keyboard interrupts to graphical movement, simulating a digital Etch-A-Sketch interface.
