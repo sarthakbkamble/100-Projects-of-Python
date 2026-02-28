@@ -1,4 +1,3 @@
-Gemini said
 🛠 Project 13: Coffee Machine Simulator
 Resource Management & Transactional Logic.
 
