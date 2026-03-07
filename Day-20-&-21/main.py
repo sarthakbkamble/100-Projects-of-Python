@@ -1,6 +1,7 @@
 from turtle import Screen
 import time, snake, scoreboard
 from food import Food
+
 screen = Screen()
 screen.setup(width=600,height=600)
 screen.bgcolor("black")
