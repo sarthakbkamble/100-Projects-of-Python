@@ -40,5 +40,6 @@ while game_is_on:
             my_score.game_over()
 
 
+
     
 screen.exitonclick()
