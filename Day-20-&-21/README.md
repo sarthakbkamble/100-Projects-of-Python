@@ -15,3 +15,4 @@ Dynamic Slicing & Iteration: Employs Python's list slicing (snake.segments[1:]) 
 Boundary Constraint Logic: Features a centralized game-loop monitor that evaluates the head's x/y coordinates against the screen's edge, triggering a game_over sequence upon a boundary breach.
 
 Modular Orchestration: Coordinates four distinct local modules (snake, food, scoreboard, main) to maintain a clean separation of concerns, where each class handles its own state and rendering.
+
