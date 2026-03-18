@@ -24,7 +24,7 @@ my_screen.onkeypress(key="s",fun=l_paddle.move_down)
 
 game_on = True
 while game_on:
-    time.sleep(0.1)
+    time.sleep(my_ball.moving_speed)
     
     my_ball.move()
 
@@ -32,6 +32,7 @@ while game_on:
         my_ball.bounce_y()
     if my_ball.distance(r_paddle)<50 and my_ball.xcor()>320 or my_ball.distance(l_paddle)<50 and my_ball.xcor()<-320:
         my_ball.bounce_x()
+        
     if my_ball.xcor()>380 :
         my_ball.reset_position()
         score_display .l_point()

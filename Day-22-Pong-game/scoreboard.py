@@ -9,12 +9,23 @@ class Scoreboard(Turtle):
         self.r_score = 0
         self.update_scoreboard()
 
+ 
+
+
     def update_scoreboard(self):
         self.clear()
-        self.goto(-100, 280)
-        self.write(self.l_score, align="center", font=("Courier", 80, "normal"))
-        self.goto(100, 280)
-        self.write(self.r_score, align="center", font=("Courier", 80, "normal"))
+        self.goto(-100, 200)
+        self.write(self.l_score, align="center", font=("Courier", 30, "bold"))
+        self.goto(100, 200)
+        self.write(self.r_score, align="center", font=("Courier", 30, "bold"))
+        self.setheading(270)
+        self.goto(0,300)
+        self.pensize(5)
+        while self.ycor()!=-300:
+            self.pendown()
+            self.forward(20)
+            self.penup()
+            self.forward(20)
 
     def l_point(self):
         self.l_score += 1
