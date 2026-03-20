@@ -10,13 +10,22 @@ class Player(Turtle):
         self.color("black")
         self.shape("turtle")
         self.penup()
-        self.goto(STARTING_POSITION)
+        self.reset_position()
         self.setheading(90)
     
     def move(self):
+        """Moves the player forward."""
         self.forward(10)
 
     def reset_position(self):
+        """Player goes to starting position."""
         self.goto(STARTING_POSITION)
-        
+    
+    def is_at_finish_line(self):
+        """Checks whether the player is at finish line or not."""
+        if self.ycor()>FINISH_LINE_Y:
+            return True
+        else:
+            return False
+     
 
