@@ -1,4 +1,8 @@
 #TODO: Create a letter using starting_letter.txt 
+with open("/new/100-Projects-of-Python/Day-24/Mail Merge Project Start/Input/Letters/starting_letter.txt") as starting_letter:
+    blueprint_of_letter = starting_letter.readlines(1)
+    print(blueprint_of_letter)
+    
 #for each name in invited_names.txt
 #Replace the [name] placeholder with the actual name.
 #Save the letters in the folder "ReadyToSend".
