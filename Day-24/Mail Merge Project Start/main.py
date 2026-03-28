@@ -1,15 +1,23 @@
-#TODO: Create a letter using starting_letter.txt 
-with open("/new/100-Projects-of-Python/Day-24/Mail Merge Project Start/Input/Letters/starting_letter.txt") as starting_letter:
-    blueprint_of_letter = starting_letter.readlines(1)
-    print(blueprint_of_letter)
-    
-    
-#for each name in invited_names.txt
+# Opening format of the letter 
+with open("C:/new/100-Projects-of-Python/Day-24/Mail Merge Project Start/Input/Letters/starting_letter.txt", mode="r")   as file:
+    starting_letter = file.read()
+
+# Getting the names of the people
+with open("C:/new/100-Projects-of-Python/Day-24/Mail Merge Project Start/Input/Names/invited_names.txt") as file:
+    list_of_name = file.readlines()
+
+# loop for writing a letter to each individual name and saving them into their name file
+for name in list_of_name:
+    name = name.strip()
+    letter = starting_letter.replace("[name]",name)
+    with open(f"C:/new/100-Projects-of-Python/Day-24/Mail Merge Project Start/Output/ReadyToSend/letter_for_{name}",mode="w") as file:
+        file.write(letter)
 
 
-#Replace the [name] placeholder with the actual name.
-#Save the letters in the folder "ReadyToSend".
     
-#Hint1: This method will help you: https://www.w3schools.com/python/ref_file_readlines.asp
-    #Hint2: This method will also help you: https://www.w3schools.com/python/ref_string_replace.asp
-        #Hint3: THis method will help you: https://www.w3schools.com/python/ref_string_strip.asp
+
+
+
+
+
+
