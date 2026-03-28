@@ -1,4 +1,4 @@
-# Opening format of the letter 
+# Opening the format of the letter 
 with open("C:/new/100-Projects-of-Python/Day-24/Mail Merge Project Start/Input/Letters/starting_letter.txt", mode="r")   as file:
     starting_letter = file.read()
 
