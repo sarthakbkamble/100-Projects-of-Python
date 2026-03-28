@@ -1,4 +1,4 @@
-🛠 Project 24: Mail Merge Automator
+🛠 Project 21: Mail Merge Automator
 Focus: File I/O Systems & String Buffer Manipulation.
 
 ✉️ Automated Document Generator
