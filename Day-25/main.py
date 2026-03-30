@@ -14,6 +14,7 @@
 #         i+=1
 # print(temperature)
 
+
 import pandas
 data = pandas.read_csv("C:/new/100-Projects-of-Python/Day-25/weather_data.csv")
 sum_of_temp=0
