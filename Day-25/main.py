@@ -19,6 +19,7 @@ correct_states=[]
 
 data = pandas.read_csv("C:/new/100-Projects-of-Python/Day-25/50_states.csv")
 
+
 while len(correct_states)<51:
     answer_state = (screen.textinput(title=f"{len(correct_states)}/50 Correct States", prompt="What's the another state's name?")).title()
 
