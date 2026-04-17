@@ -3,13 +3,17 @@ from coffee_maker import CoffeeMaker
 from money_machine import MoneyMachine
 import art
 
+# Instantiate the menu, ingredient manager, and payment systems
 coffee_menu = Menu()
 nescafe_coffee_maker = CoffeeMaker()
 my_money_machine = MoneyMachine()
 
+# Print the welcoming visual assets and initialize the operating state loop flag
 coffee_machine_is_on = True
 print(art.coffee)
 print(art.coffee_text)
+
+# Keep the coffee machine running to accept customer orders, display reports, or shut down
 while coffee_machine_is_on:
     cust_order = input(f"What would you like? ({coffee_menu.get_items()}) :").lower()
     if cust_order == "off":
@@ -21,4 +25,3 @@ while coffee_machine_is_on:
         drink = coffee_menu.find_drink(cust_order)
         if nescafe_coffee_maker.is_resource_sufficient(drink) and my_money_machine.make_payment(drink.cost):
             nescafe_coffee_maker.make_coffee(drink)
-    
