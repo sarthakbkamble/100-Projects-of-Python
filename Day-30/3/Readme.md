@@ -1,4 +1,4 @@
-🛠 Project 30: Advanced Password Vault
+🛠 Project : Advanced Password Vault
 Focus: JSON Storage & Exception Handling.
 
 🔐 Relational Credential Vault
