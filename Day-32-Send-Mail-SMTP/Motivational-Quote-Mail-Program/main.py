@@ -2,7 +2,7 @@ import datetime as dt
 import smtplib,random
 
 my_email = "sarthakwrkonly@gmail.com"
-password = "sgcg cecm pyaa fwuk"
+password = ""
 
 now =  dt.datetime.now()
 weekday = now.weekday()
