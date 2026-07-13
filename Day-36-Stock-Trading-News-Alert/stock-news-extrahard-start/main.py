@@ -57,8 +57,16 @@ news_response = requests.get(url=news_endpoint,params=news_params)
 news_response.raise_for_status()
 news_data = news_response.json()
 news_articles = news_data["articles"]
+articles = []
+for article in news_articles:
+    article_dict = {
+        "title":article["title"],
+        "author":article["author"],
+        "description":article["description"],
+    }
+    articles.append(article_dict)
 
-
+print(articles)
 
 ## STEP 3: Use https://www.twilio.com
 # Send a seperate message with the percentage change and each article's title and description to your phone number. 
