@@ -2,21 +2,23 @@ import requests,requests_cache
 import os
 from dotenv import load_dotenv
 from datetime import datetime,timedelta
+from twilio.rest import Client
 
+
+# Load environment variables from a .env file
 load_dotenv()
 
+# Calculate the target dates for stock price evaluation
 today = datetime.now().date()
-yesterday = today - timedelta(days=2)
-day_before_yesterday = today - timedelta(days=3)
-print(yesterday)
-print(day_before_yesterday)
+yesterday = today - timedelta(days=1)
+day_before_yesterday = today - timedelta(days=4)
 
+# Define constants for the target stock and company
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
 
-## STEP 1: Use https://www.alphavantage.co
-# When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
 
+# Set up parameters and fetch daily stock data from the Alpha Vantage API
 stock_price_endpoint = "https://www.alphavantage.co/query"
 stock_price_api_key = os.environ.get("APLHAVANTAGE_STOCKS_PRICE_API_KEY")
 
@@ -31,55 +33,68 @@ stock_price_response.raise_for_status()
 
 stock_price_data = stock_price_response.json()
 
-# yesterday_price_data = float(stock_price_data["Time Series (Daily)"][str(yesterday)]["4. close"])
-# day_before_yesterday_price_data = float(stock_price_data["Time Series (Daily)"][str(day_before_yesterday)]["4. close"])
-# price_difference = ((yesterday_price_data-day_before_yesterday_price_data)/day_before_yesterday_price_data)*100
-# if abs(price_difference)>=5:
-#     print("Get News")
+# Extract closing prices and calculate the percentage difference between the two dates
+yesterday_price_data = float(stock_price_data["Time Series (Daily)"][str(yesterday)]["4. close"])
+day_before_yesterday_price_data = float(stock_price_data["Time Series (Daily)"][str(day_before_yesterday)]["4. close"])
+price_difference = ((yesterday_price_data-day_before_yesterday_price_data)/day_before_yesterday_price_data)*100
 
-## STEP 2: Use https://newsapi.org
-# Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME. 
-
-
-news_endpoint = "https://newsapi.org/v2/everything"
-news_api_key = os.environ.get("NEWS_API_KEY")
-news_params = {
-    "q":"Tesla AND (stock OR market OR Elon Musk)",
-    "pagesize" : 3,
-    "language":"en",
-    "sortBy" : "popularity",
-    "apikey":news_api_key,
-    "from":day_before_yesterday,
-    "to":yesterday,
-}
-
-news_response = requests.get(url=news_endpoint,params=news_params)
-news_response.raise_for_status()
-news_data = news_response.json()
-news_articles = news_data["articles"]
-articles = []
-for article in news_articles:
-    article_dict = {
-        "title":article["title"],
-        "author":article["author"],
-        "description":article["description"],
+# Check if the stock price fluctuation is 5% or more to trigger news retrieval and alerting
+if abs(price_difference)>=5:
+        
+    # Fetch the top 3 relevant English news articles about Tesla from the News API
+    news_endpoint = "https://newsapi.org/v2/everything"
+    news_api_key = os.environ.get("NEWS_API_KEY")
+    news_params = {
+        "q":"Tesla AND (stock OR market OR Elon Musk)",
+        "pagesize" : 3,
+        "language":"en",
+        "sortBy" : "popularity",
+        "apikey":news_api_key,
+        "from":day_before_yesterday,
+        "to":yesterday,
     }
-    articles.append(article_dict)
 
-print(articles)
+    news_response = requests.get(url=news_endpoint,params=news_params)
+    news_response.raise_for_status()
+    news_data = news_response.json()
+    news_articles = news_data["articles"]
+    articles = []
+    for news in news_articles:
+        article_dict = {
+            "title":news["title"],
+            "description":news["description"],
+        }
+        articles.append(article_dict)
 
-## STEP 3: Use https://www.twilio.com
-# Send a seperate message with the percentage change and each article's title and description to your phone number. 
+
+    # Format the alert message body with directional indicators based on price movement
+    message_to_be_sent = ""
+    if price_difference>0:
+        message = f"""TSLA: 🔺{abs(int(price_difference))}\n
+    Headline: {articles[0]["title"]}\nBrief: {articles[0]["description"]}\n\n
+    Headline: {articles[0]["title"]}\nBrief: {articles[1]["description"]}\n\n
+    Headline: {articles[0]["title"]}\nBrief: {articles[2]["description"]}\n\n
+    """
+        message_to_be_sent = message
+    else:
+        message = f"""TSLA: 🔻{abs(int(price_difference))}\n
+    Headline: {articles[0]["title"]}\nBrief: {articles[0]["description"]}\n\n
+    Headline: {articles[0]["title"]}\nBrief: {articles[1]["description"]}\n\n
+    Headline: {articles[0]["title"]}\nBrief: {articles[2]["description"]}\n\n
+    """
+        message_to_be_sent = message
 
 
-#Optional: Format the SMS message like this: 
-"""
-TSLA: 🔺2%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-or
-"TSLA: 🔻5%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-"""
 
+    # Initialize the Twilio client and send the formatted alert via WhatsApp
+    twilio_acc_sid = os.environ.get("TWILIO_ACCOUNT_SID_FOR_STOCK_PRICES_ALERT")
+    twilio_auth_token = os.environ.get("TWILIO_AUTH_TOKEN_FOR_STOCK_PRICES_ALERT")
+    my_number = os.environ.get("MY_PHONE_NUMBER")
+
+    client = Client(twilio_acc_sid, twilio_auth_token)
+
+    message = client.messages.create(
+    from_='whatsapp:+14155238886',
+    body=f"{message_to_be_sent}",
+    to=f"whatsapp:{my_number}"
+    )
