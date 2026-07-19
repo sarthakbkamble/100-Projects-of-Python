@@ -104,14 +104,21 @@
 
 import requests
 
+# --- API Configuration ---
+# Set up request query parameters targeting 10 boolean (True/False) questions
+# under OpenTDB Category 18 (Science: Computers)
 parameters = {
     "amount":10,
     "type":"boolean",
     "category":18,
 }
 
+# --- Data Fetching Operations ---
+# Send an HTTP GET request to the Open Trivia Database endpoint with our configuration parameters
 trivial_database_api ="https://opentdb.com/api.php"
 response = requests.get(url=trivial_database_api,params=parameters)
-response.raise_for_status()
+response.raise_for_status() # Halt script execution with an error if the server request fails
+
+# Parse raw response payload into a Python dictionary and extract the results list
 data = response.json()
 question_data = data["results"]
